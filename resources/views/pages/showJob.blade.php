@@ -11,7 +11,7 @@
                 <div class="card-body p-4">
                     <div class="text-center mb-4">
                         @if($jobRecords->logo)
-                            <img src="{{ asset('storage/logos/' . $jobRecords->logo) }}" class="img-fluid rounded-4 shadow-sm mb-3" 
+                            <img src="{{ asset('storage/' . $jobRecords->logo) }}" class="img-fluid rounded-4 shadow-sm mb-3" 
                                  alt="{{ $jobRecords->company }}" style="max-height: 120px; object-fit: contain;">
                         @endif
                         <h3 class="h4 mb-2 fw-bold">{{ $jobRecords->title }}</h3>

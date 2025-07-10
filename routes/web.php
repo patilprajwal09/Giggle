@@ -5,7 +5,7 @@ use App\Http\Controllers\ListingController;
 use App\Http\Controllers\CompanyController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\Application;
 Auth::routes();
 
 /*
@@ -28,6 +28,7 @@ Route::post('/updateApplicationStatus', [ApplicationController::class, 'updateSt
 Route::post('/allApplications/{id}/approve', [ApplicationController::class, 'approveStatus'])->name('allApplications.approveStatus');
 Route::post('/allApplications/{id}/reject', [ApplicationController::class, 'rejectStatus'])->name('allApplications.rejectStatus');
 Route::post('/frontPage', [ApplicationController::class, 'rejectStatus'])->name('allApplications.rejectStatus');
+Route::get('/resume/{application}', [App\Http\Controllers\ApplicationController::class, 'viewResume'])->name('applications.viewResume');
 
 Route::post('/storeCompany', [CompanyController::class, 'store'])->name('storeCompany');
 Route::get('/editCompany/{id}', [CompanyController::class, 'edit']);
@@ -48,7 +49,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/updateJob/{id}', [ListingController::class, 'update']);
     Route::get('/deleteJob/{id}', [ListingController::class, 'delete']);
     Route::get('/applyNow/{listingId}', [ApplicationController::class, 'create']);
-
+    Route::get('/showJob/{id}', [ListingController::class, 'show'])->name('showJob');
 
 
     Route::get('/addCompany', [CompanyController::class, 'create'])->name('addCompany');

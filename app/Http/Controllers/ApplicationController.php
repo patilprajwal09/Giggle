@@ -6,6 +6,7 @@ use App\Models\Listing;
 use App\Models\Company;
 use App\Models\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ApplicationController extends Controller
 {
@@ -156,4 +157,23 @@ class ApplicationController extends Controller
         }
         return back()->with('error', 'Application not found');
     }
+
+//     use Illuminate\Support\Facades\Storage;
+// use Symfony\Component\HttpFoundation\Response;
+
+public function viewResume($applicationId)
+{
+    $application = \App\Models\Application::findOrFail($applicationId);
+
+    if (!$application->resume || !Storage::disk('public')->exists($application->resume)) {
+        abort(404, 'Resume not found.');
+    }
+
+    $file = Storage::disk('public')->get($application->resume);
+    $mimeType = Storage::disk('public')->mimeType($application->resume);
+
+    return response($file, 200)
+        ->header('Content-Type', $mimeType)
+        ->header('Content-Disposition', 'inline; filename="' . basename($application->resume) . '"');
+}
 }

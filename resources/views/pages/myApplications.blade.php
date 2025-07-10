@@ -45,21 +45,30 @@
                                             </td>
                                             <td>
                                                 @if($application->resume)
-                                                    <a href="{{ url('storage/' . $application->resume) }}" 
-                                                       target="_blank" 
-                                                       class="btn btn-sm btn-outline-danger shadow">
-                                                        <i class="bi bi-file-earmark-text me-1"></i>View Resume
-                                                    </a>
+                                                    @php
+                                                        // Check if the file exists in storage/app/public
+                                                        $resumePath = storage_path('app/public/' . $application->resume);
+                                                    @endphp
+                                                    @if (file_exists($resumePath))
+                                                        <a href="{{ route('applications.viewResume', $application->id) }}" 
+                                                           target="_blank" 
+                                                           class="btn btn-sm btn-outline-danger shadow">
+                                                            <i class="bi bi-file-earmark-text me-1"></i>View Resume
+                                                        </a>
+                                                    @else
+                                                        <span class="text-danger">Resume file not found</span>
+                                                    @endif
                                                 @else
                                                     <span class="text-muted">No resume</span>
                                                 @endif
                                             </td>
                                             <td>
-                                                @if($application->listing)
-                                                    <a href="{{ url('showJob/' . $application->listing->id) }}" class="btn btn-sm btn-outline-danger shadow">
-                                                        <i class="bi bi-eye me-1"></i>View Job
-                                                    </a>
-                                                @endif
+                                               
+                                                    @if($application->listing)
+                                                        <a href="{{ url('showJob/' . $application->listing->id) }}" class="btn btn-sm btn-outline-danger shadow">
+                                                            <i class="bi bi-eye me-1"></i>View Job
+                                                        </a>
+                                                    @endif
                                             </td>
                                         </tr>
                                     @endforeach
