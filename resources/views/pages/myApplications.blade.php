@@ -28,7 +28,7 @@
                                             <td>
                                                 <strong>{{ $application->listing->title ?? 'N/A' }}</strong>
                                             </td>
-                                            <td>{{ $application->listing->company ?? 'N/A' }}</td>
+                                            <td>{{ $application->listing->company->name ?? 'N/A' }}</td>
                                             <td>
                                                 <small class="text-muted">
                                                     {{ \Carbon\Carbon::parse($application->created_at)->format('F j, Y, g:i a') }}

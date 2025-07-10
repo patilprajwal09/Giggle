@@ -34,15 +34,19 @@
             @foreach ($jobRecords as $item)
                 <div class="col-md-6 col-lg-4">
                     <div class="card h-100 border-0 shadow-lg job-card position-relative transition-transform" style="transition: transform 0.2s;">
-                        <div class="position-absolute top-0 end-0 m-2">
-                            <span class="badge bg-primary">{{ $item->location }}</span>
-                        </div>
-                        <img src="{{ asset('storage/logos/' . $item->logo) }}" class="card-img-top p-3 rounded-4" alt="{{ $item->company }}" style="height: 120px; object-fit: contain; background: #f8f9fa;">
+                        <img src="{{ asset('storage/logos/' . $item->logo) }}" class="card-img-top p-3 rounded-4" alt="{{ $item->company ? $item->company->name : 'N/A' }}" style="height: 120px; object-fit: contain; background: #f8f9fa;">
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title mb-1"><a href="{{ url('/showJob/' . $item->id) }}" class="text-decoration-none text-dark fw-bold">{{ $item->title }}</a></h5>
-                            <div class="fw-bold text-danger mb-2"><i class="bi bi-building"></i> {{ $item->company }}</div>
-                            <div class="mb-2 text-muted small"><i class="bi bi-geo-alt-fill me-1"></i> {{ $item->location }}</div>
-                            <div class="mb-3 text-truncate" style="max-width: 100%;"><i class="bi bi-info-circle"></i> {{ Str::limit($item->description, 80) }}</div>
+                            <h5 class="card-title mb-1">
+                                <a href="{{ url('/showJob/' . $item->id) }}" class="text-decoration-none text-dark fw-bold">{{ $item->title }}</a>
+                            </h5>
+                            <div class="fw-bold text-danger mb-2">
+                                <i class="bi bi-building"></i>
+                                {{ $item->company ? $item->company->name : 'N/A' }}
+                            </div>
+                            <div class="mb-2 text-muted small">
+                                <i class="bi bi-geo-alt-fill me-1"></i>
+                                {{ $item->company ? $item->company->city : 'N/A' }}
+                            </div>
                             <a href="{{ url('/applyNow/'.$item->id) }}" class="btn btn-success mt-auto w-100">Apply Now</a>
                         </div>
                     </div>

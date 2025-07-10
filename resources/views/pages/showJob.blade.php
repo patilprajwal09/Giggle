@@ -10,13 +10,18 @@
                 </div>
                 <div class="card-body p-4">
                     <div class="text-center mb-4">
-                        @if($jobRecords->logo)
-                            <img src="{{ asset('storage/' . $jobRecords->logo) }}" class="img-fluid rounded-4 shadow-sm mb-3" 
-                                 alt="{{ $jobRecords->company }}" style="max-height: 120px; object-fit: contain;">
+                        @if(!empty($jobRecords->logo))  
+                            <img src="{{ asset('storage/' . $jobRecords->logo) }}" class="img-fluid rounded-4 shadow-sm mb-3"
+                                 alt="{{ $jobRecords->company ?? 'Company Logo' }}" style="max-height: 120px; object-fit: contain;">
+                        @else
+                            <div class="bg-light rounded-4 p-4 d-inline-block mb-3">
+                                <i class="bi bi-building fs-1 text-muted"></i>
+                                <p class="text-muted mb-0 mt-2">No Logo</p>
+                            </div>
                         @endif
-                        <h3 class="h4 mb-2 fw-bold">{{ $jobRecords->title }}</h3>
+                        <h3 class="h4 mb-2 fw-bold">{{ $jobRecords->title ?? 'N/A' }}</h3>
                         <div class="h5 fw-bold mb-3 text-danger">
-                            <i class="bi bi-building me-2"></i>{{ $jobRecords->company }}
+                            <i class="bi bi-building me-2"></i>{{ $jobRecords->company ?? 'N/A' }}
                         </div>
                         <div class="text-muted mb-4">
                             <i class="bi bi-geo-alt-fill me-2"></i>{{ $jobRecords->location }}

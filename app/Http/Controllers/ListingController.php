@@ -34,12 +34,12 @@ class ListingController extends Controller
      */
     public function create(Request $request)
     {
-        $user=$request->user();
-        $companies=Company::where('user_id',$user->id)->first();
-        if(!$companies){
+        $user = $request->user();
+        $company = Company::where('user_id', $user->id)->first();
+        if (!$company) {
             return redirect()->route('addCompany');
         }
-        return view('pages.addJob');
+        return view('pages.addJob')->with('company', $company);
     }
 
     /**
@@ -73,11 +73,27 @@ class ListingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request ,$id)
-
+    public function show(Request $request, $id)
     {
-        $listings = Listing::find($id);
-        return view('pages.showJob')->with('jobRecords',$listings);
+        $listing = Listing::find($id);
+
+        if (!$listing) {
+            return redirect()->route('index')->with('error', 'Job not found');
+        }
+
+        // Fetch the related company using the company_id foreign key
+        $company = null;
+        if ($listing->company_id) {
+            $company = \App\Models\Company::find($listing->company_id);
+        }
+
+        // Attach the company name and logo to the listing object for the view
+        $listing->company = $company ? $company->name : null;
+        $listing->logo = $company ? $company->logo : null;
+        $listing->email = $company ? $company->email : null;
+        $listing->website = $company ? ($company->website ?? null) : null; // in case you want to show website
+
+        return view('pages.showJob')->with('jobRecords', $listing);
     }
 
     /**
